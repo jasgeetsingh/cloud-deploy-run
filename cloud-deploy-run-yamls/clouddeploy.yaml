@@ -1,0 +1,69 @@
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
+metadata:
+ name: demo-cloud-deploy-run-pipeline
+description: application deployment pipeline
+serialPipeline:
+ stages:
+ - targetId: dev-env
+   profiles: [dev]
+ - targetId: stage-env
+   profiles: [stage]
+ - targetId: prod-env
+   profiles: [prod]
+
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+ name: dev-env
+description: Cloud Run Dev service
+run:
+ location: projects/<PROJECT_ID>/us-central1
+
+executionConfigs:
+- defaultPool:
+    serviceAccount: "<sa-name>@<PROJECT_ID>.iam.gserviceaccount.com"
+    artifactStorage:
+  usages:
+  - RENDER
+  - DEPLOY
+  - VERIFY
+
+
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+ name: stage-env
+description: Cloud Run Stage service
+run:
+ location: projects/<PROJECT_ID>/locations/us-central1
+
+executionConfigs:
+- defaultPool:
+    serviceAccount: "<sa-name>@<PROJECT_ID>.iam.gserviceaccount.com"
+    artifactStorage:
+  usages:
+  - RENDER
+  - DEPLOY
+  - VERIFY
+
+---
+
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+ name: prod-env
+description: Cloud Run PROD service
+run:
+ location: projects/<PROJECT_ID>/locations/us-central1
+
+executionConfigs:
+- defaultPool:
+    serviceAccount: "<sa-name>@<PROJECT_ID>.iam.gserviceaccount.com"
+    artifactStorage:
+  usages:
+  - RENDER
+  - DEPLOY
+  - VERIFY

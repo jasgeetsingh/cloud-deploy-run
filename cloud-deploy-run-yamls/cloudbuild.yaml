@@ -1,0 +1,32 @@
+# Build and tag using commit sha
+
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '.', '-t', 'us.gcr.io/$PROJECT_ID/demo-cloud-deploy-run:latest', '-f', 'cloud-deploy-run-yamls/Dockerfile']
+
+# Push the container image
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us.gcr.io/$PROJECT_ID/demo-cloud-deploy-run:latest']
+
+
+# Register your pipeline and targets with the Google Cloud Deploy service
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: gcloud
+  args:
+    [ "deploy", "apply", "--file", "cloud-deploy-run-yamls/clouddeploy.yaml", "--region", "us-central1", "--project", "$PROJECT_ID" ]
+
+
+# Create release in Google Cloud Deploy
+
+- name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: gcloud
+  args:
+    [
+      "deploy", "releases", "create", "rel1-${COMMIT_SHA}", "--project", "$PROJECT_ID", "--region", "us-central1", "--delivery-pipeline", "demo-cloud-deploy-run-pipeline", "--annotations", "commitId=${REVISION_ID}", "--images", "myapp=us.gcr.io/$PROJECT_ID/demo-cloud-deploy-run:latest"
+    ]
+ 
+logsBucket: 'gs://<cb-logs-bucket-name>'  # CLOUD BUILD LOG FILE IS STORE IN THIS BUCKET
+options:
+  logging: GCS_ONLY
+
