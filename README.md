@@ -22,6 +22,7 @@ gcloud config set project <project-id>
     - Service Account Admin - `roles/iam.serviceAccountAdmin`
     - Service Usage Admin - `roles/serviceusage.serviceUsageAdmin`
     - Cloud Build Editor - `roles/cloudbuild.builds.editor`
+    - Viewer - `roles/viewer`
     
 ### A. Things to be deployed initially as a Prerequisite in order to execute above **Cloud Build Trigger**
 
@@ -72,9 +73,9 @@ gcloud config set project <project-id>
 2. Checkout to automated-cloudrun-deploy-using-cloud-deploy branch using `git checkout automated-cloudrun-deploy-using-cloud-deploy`
 
 3. Below files in given path needs to be changed before executing any terraform module
-   - **a.** Replace the GCS `<bucket-name>` in the given below file path with the gcs terraform bucket name created above in `Step A.4(1)`.
+   - **a.** Replace the GCS `<bucket-name>` in the given below file path with the gcs terraform bucket name created above in `Step A.4(i)`.
       - terraform->env->test->cloud-build-trigger->backend.tf
-   - **b.** Replace the GCS `<cb-logs-bucket-name>` in the given below file path with the gcs terraform bucket name created above in `Step A.4(1)`.
+   - **b.** Replace the GCS `<cb-logs-bucket-name>` in the given below file path with the gcs terraform bucket name created above in `Step A.4(ii)`.
       - cloud-deploy-run-yamls->cloudbuild.yaml
    - **c.** Replace the `<repo-name>` in the given below file path with the source code repo name created above in `Step A(5)`.
       - terraform->env->test->cloud-build-trigger->terraform.tfvars
@@ -86,11 +87,11 @@ gcloud config set project <project-id>
       - cloud-deploy-run-yamls->myapp-dev.yaml
       - cloud-deploy-run-yamls->myapp-stage.yaml
       - cloud-deploy-run-yamls->myapp-prod.yaml
-      - cloud-deploy-run-yamls->skaffold.yaml
+      - skaffold.yaml
       - terraform->cloud-build-trigger->terraform.tfvars
  
 
-4. After updating the above commit push your changes back to Google CSR
+4. After updating the above commit push your changes back to Google CSR created above in step A(5).
 
 5. Run following terraform commands in given directory path `terraform/env/test/cloud-build-triggers`
 ```
@@ -100,8 +101,14 @@ c. terraform apply
 ```
 6. Open the GCP Console. Navigate to the `Cloud Build` section from GCP Console and click on the `Triggers` from the left panel.
 
-7. Search for the Trigger name `demo-cloud-deploy-run-pipeline-test`. Next, click on `RUN`. Specify then click on the `RUN TRIGGER`.
-  
-**Note:** For the purpose of we are going to run the trigger manually but this can be automated as per your need. For the same you can edit your`CloudBuild Trigger` and choose `Push to a branch` from `Event Section`. Also, can click on `History` from the left panel and check for the build details for all the recent triggers.
+7. Search for the Trigger name `demo-cloud-deploy-run-pipeline-test`. Next, click on `RUN`. Next, click on `RUN TRIGGER` by specifying the branch name in which you pushed the code in above `step 4(B)`.
 
-8. Next open the GCP Console. Navigate to the `Cloud Deploy` and `Cloud Run` section from GCP Console. Check for the first release in `Cloud Run` page from the GCP Console.
+**Note:** For the purpose of demo we are going to run the trigger manually but this can be automated as per your need. For the same you can edit your`CloudBuild Trigger` and choose `Push to a branch` from `Event Section`. Also, can click on `History` from the left panel and check for the build details for all the recent triggers.
+
+8. Specify branch name as **main** and then click on the `RUN TRIGGER`.
+
+9. Open the [Build History page](https://console.cloud.google.com/cloud-build/builds). 
+
+10. Wait till the Triggres get completed.
+
+11. Next open the GCP Console. Navigate to the `Cloud Deploy` and `Cloud Run` section from GCP Console. Check for the first release name `dev` in `Cloud Run` page from the GCP Console.
