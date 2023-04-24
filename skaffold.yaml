@@ -1,0 +1,29 @@
+apiVersion: skaffold/v3alpha1
+kind: Config  
+metadata:
+  name: myapp
+deploy:
+  cloudrun: {} 
+profiles:
+  - name: dev
+    manifests:
+      rawYaml:
+        - cloud-deploy-canary-run-yamls/myapp-dev.yaml
+    verify:
+    - name: verify-deployment
+      container:
+        name: cd-run-verify
+        image: us-central1-docker.pkg.dev/<PROJECT_ID>/cd-canary-verify-demo/demo-cloud-deploy-verify
+        command: ["/cd-run-verify/verify.sh"]
+        args: ["dev", "<PROJECT_ID>", "us-central1"]
+  - name: prod
+    manifests:
+      rawYaml:
+        - cloud-deploy-canary-run-yamls/myapp-prod.yaml
+    verify:
+    - name: verify-deployment
+      container:
+        name: cd-run-verify
+        image: us-central1-docker.pkg.dev/<PROJECT_ID>/cd-canary-verify-demo/demo-cloud-deploy-verify
+        command: ["/cd-run-verify/verify.sh"]
+        args: ["prod", "<PROJECT_ID>", "us-central1"]

@@ -1,0 +1,27 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: dev
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: '1'
+        autoscaling.knative.dev/maxScale: '1'
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+      - name: prod-container
+        image: us-central1-docker.pkg.dev/<PROJECT_ID>/cd-canary-run-demo/demo-cloud-deploy-run
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          timeoutSeconds: 240
+      serviceAccountName: <sa-name>@<PROJECT_ID>.iam.gserviceaccount.com
+
+
+ 
