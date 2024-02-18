@@ -13,9 +13,9 @@ profiles:
     - name: verify-deployment
       container:
         name: cd-run-verify
-        image: us-central1-docker.pkg.dev/<PROJECT_ID>/cd-canary-verify-demo/demo-cloud-deploy-verify
+        image: us-central1-docker.pkg.dev/springboot-java-cloud-deploy/cd-canary-verify-demo/demo-cloud-deploy-verify
         command: ["/cd-run-verify/verify.sh"]
-        args: ["dev", "<PROJECT_ID>", "us-central1"]
+        args: ["dev", "springboot-java-cloud-deploy", "us-central1"]
   - name: prod
     manifests:
       rawYaml:
@@ -24,6 +24,6 @@ profiles:
     - name: verify-deployment
       container:
         name: cd-run-verify
-        image: us-central1-docker.pkg.dev/<PROJECT_ID>/cd-canary-verify-demo/demo-cloud-deploy-verify
+        image: us-central1-docker.pkg.dev/springboot-java-cloud-deploy/cd-canary-verify-demo/demo-cloud-deploy-verify
         command: ["/cd-run-verify/verify.sh"]
-        args: ["prod", "<PROJECT_ID>", "us-central1"]
+        args: ["prod", "springboot-java-cloud-deploy", "us-central1"]
