@@ -7,13 +7,13 @@
 
 cloud_build_triggers = {
   cloud_build_trigger_01 = {
-    project         = "<PROJECT_ID>"
+    project         = "cloud-build-logs-jasgeet"
     name            = "demo-cloud-deploy-canary-pipeline"
     description     = "Trigger to create Container Registry along with Delivery Pipeline in Cloud Deploy"
-    repo_uri        = "https://source.developers.google.com/p/<PROJECT_ID>/r/<repo-name>"
+    repo_uri        = "https://source.developers.google.com/p/springboot-java-cloud-deploy/r/terraform-config-code"
     repo_ref        = "refs/heads/main"
     repo_type       = "CLOUD_SOURCE_REPOSITORIES"
-    service_account = "projects/<PROJECT_ID>/serviceAccounts/<sa-name>@<PROJECT_ID>.iam.gserviceaccount.com"
+    service_account = "projects/cloud-build-logs-jasgeet/serviceAccounts/sa-jasgeet@springboot-java-cloud-deploy.iam.gserviceaccount.com"
     filename        = "cloud-deploy-canary-run-yamls/cloudbuild.yaml"
   },
 }
