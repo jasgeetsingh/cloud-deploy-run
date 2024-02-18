@@ -29,11 +29,11 @@ metadata:
  name: dev-env
 description: Cloud Run Dev service
 run:
- location: projects/<PROJECT_ID>/locations/us-central1
+ location: projects/springboot-java-cloud-deploy/locations/us-central1
 
 executionConfigs:
 - defaultPool:
-    serviceAccount: "<sa-name>@<PROJECT_ID>.iam.gserviceaccount.com"
+    serviceAccount: "sa-jasgeet@springboot-java-cloud-deploy.iam.gserviceaccount.com"
     artifactStorage:
   usages:
   - RENDER
@@ -48,12 +48,12 @@ metadata:
  name: prod-env
 description: Cloud Run Prod service
 run:
- location: projects/<PROJECT_ID>/locations/us-central1
+ location: projects/springboot-java-cloud-deploy/locations/us-central1
 requireApproval: true
 
 executionConfigs:
 - defaultPool:
-    serviceAccount: "<sa-name>@<PROJECT_ID>.iam.gserviceaccount.com"
+    serviceAccount: "sa-jasgeet@springboot-java-cloud-deploy.iam.gserviceaccount.com"
     artifactStorage:
   usages:
   - RENDER
