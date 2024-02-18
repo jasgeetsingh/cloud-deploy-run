@@ -1,29 +1,29 @@
 # Build CloudRun Deployment Image and tag using commit sha
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cd-canary-run-demo/demo-cloud-deploy-run:latest', '-f', 'cloud-deploy-canary-run-yamls/Dockerfile']
+  args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/springboot-java-cloud-deploy/cd-canary-run-demo/demo-cloud-deploy-run:latest', '-f', 'cloud-deploy-canary-run-yamls/Dockerfile']
     
 
 # Push CloudRun Deployment container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cd-canary-run-demo/demo-cloud-deploy-run:latest']
+  args: ['push', 'us-central1-docker.pkg.dev/springboot-java-cloud-deploy/cd-canary-run-demo/demo-cloud-deploy-run:latest']
 
 
 # Build Deployment Verify Image(using Skaffold) and tag using commit sha
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cd-canary-verify-demo/demo-cloud-deploy-verify:latest', '-f', 'cd-run-verify/Dockerfile']
+  args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/springboot-java-cloud-deploy/cd-canary-verify-demo/demo-cloud-deploy-verify:latest', '-f', 'cd-run-verify/Dockerfile']
     
 
 # Push Deployment Verify container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cd-canary-verify-demo/demo-cloud-deploy-verify:latest']
+  args: ['push', 'us-central1-docker.pkg.dev/springboot-java-cloud-deploy/cd-canary-verify-demo/demo-cloud-deploy-verify:latest']
 
 
 # Register the delivery pipeline and targets
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
   args:
-    [ "deploy", "apply", "--file", "cloud-deploy-canary-run-yamls/clouddeploy.yaml", "--region", "us-central1", "--project", "$PROJECT_ID" ]
+    [ "deploy", "apply", "--file", "cloud-deploy-canary-run-yamls/clouddeploy.yaml", "--region", "us-central1", "--project", "springboot-java-cloud-deploy" ]
     
   
 # Invoking delivery pipeline to create a release 
@@ -31,11 +31,11 @@ steps:
   entrypoint: gcloud
   args:
     [
-      "deploy", "releases",  "create", "rel1-${SHORT_SHA}", "--project", "$PROJECT_ID", "--region", "us-central1", "--delivery-pipeline", "demo-canary-pipeline"
+      "deploy", "releases",  "create", "rel1-${SHORT_SHA}", "--project", "springboot-java-cloud-deploy", "--region", "us-central1", "--delivery-pipeline", "demo-canary-pipeline"
     ]
 
 
 # CLOUD BUILD LOG FILE IS STORE IN THIS BUCKET 
-logsBucket: 'gs://<logs-bucket-name>'  
+logsBucket: 'gs://cloud-build-logs-jasgeet'  
 options:
   logging: GCS_ONLY
