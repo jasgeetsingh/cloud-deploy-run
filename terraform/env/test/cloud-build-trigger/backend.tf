@@ -16,7 +16,7 @@
 
 terraform {
   backend "gcs" {
-    bucket = "<bucket-name>"      # TERRAFORM STATE FILES STORE IN THIS BUCKET
+    bucket = "terraform-state-jasgeet"      # TERRAFORM STATE FILES STORE IN THIS BUCKET
     prefix = "gcp-deployment/env/regions/test/cloud-build-trigger" # STATE FILES STORED IN THIS PATH UNDER THE BUCKET SPECIFIED ABOVE
   }
 }
