@@ -13,7 +13,7 @@ spec:
       timeoutSeconds: 300
       containers:
       - name: prod-container
-        image: us-central1-docker.pkg.dev/<PROJECT_ID>/cd-canary-run-demo/demo-cloud-deploy-run
+        image: us-central1-docker.pkg.dev/springboot-java-cloud-deploy/cd-canary-run-demo/demo-cloud-deploy-run
         ports:
         - containerPort: 80
         resources:
@@ -21,7 +21,7 @@ spec:
             cpu: 1000m
             memory: 512Mi
           timeoutSeconds: 240
-      serviceAccountName: <sa-name>@<PROJECT_ID>.iam.gserviceaccount.com
+      serviceAccountName: sa-jasgeet@springboot-java-cloud-deploy.iam.gserviceaccount.com
 
 
  
