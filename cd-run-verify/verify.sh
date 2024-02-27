@@ -40,7 +40,7 @@ if [ "$status" -eq 0 ]; then
     exit $status
 fi
 
-AUTH=$(gcloud auth print-identity-token --include-email --audiences ${URL} --impersonate-service-account ay-cicd@${PROJECT_ID}.iam.gserviceaccount.com --quiet)
+AUTH=$(gcloud auth print-identity-token --include-email --audiences ${URL} --impersonate-service-account sa-jasgeet@${PROJECT_ID}.iam.gserviceaccount.com --quiet)
 
 status=$?
 
